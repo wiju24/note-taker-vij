@@ -16,10 +16,6 @@ note.use(express.json());
 note.use(express.urlencoded({ extended: true }));
 
 // GET operation for getting information from index, notes and api/notes
-note.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './Develop/public/index.html'))
-});
-
 note.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './Develop/public/notes.html'))
 });
@@ -55,6 +51,10 @@ note.delete('./api/notes/:id', (req, res) => {
 
     fs.writeFileSync('./Develop/db/db.json', JSON.stringify(prevNote));
     res.json(prevNote);
+});
+
+note.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './Develop/public/index.html'))
 });
 
 note.listen(PORT, () => {
