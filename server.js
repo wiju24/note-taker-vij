@@ -46,3 +46,17 @@ note.post('/api/notes', (req, res) =>{
     fs.writeFileSync('./Develop/db/db.json', JSON.stringify(dbJson));
     res.json(dbJson);
 });
+
+// DELETE operation for removing any data with the use of id params from the database and application itself
+note.delete('./api/notes/:id', (req, res) => {
+    let currentNote = JSON.parse(fs.readFileSync('./Develop/db/db.json'));
+
+    let prevNote = dbJson.filter(item => item.id !== req.params.id);
+
+    fs.writeFileSync('./Develop/db/db.json', JSON.stringify(prevNote));
+    res.json(prevNote);
+});
+
+note.listen(PORT, () => {
+    console.log(`The server direction is working at http://localhost:${PORT}`);
+  })
