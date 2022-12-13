@@ -38,17 +38,18 @@ note.post('/api/notes', (req, res) =>{
         text: req.body.text,
     };
 
-    dbJson.push(info);
+    dbJson.push(tempnoteData);
     fs.writeFileSync('./Develop/db/db.json', JSON.stringify(dbJson));
     res.json(dbJson);
 });
 
 // DELETE operation for removing any data with the use of id params from the database and application itself
-note.delete('./api/notes/:id', (req, res) => {
-    let currentNote = JSON.parse(fs.readFileSync('./Develop/db/db.json'));
-
+note.delete('/api/notes/:id', (req, res) => {
+    // we grab the current data from our dataset
+    let dbJson = JSON.parse(fs.readFileSync('./Develop/db/db.json'));
+    // here we are filtering OUT the matching ID (req.params.id)
     let prevNote = dbJson.filter(item => item.id !== req.params.id);
-
+    // updating the dataset (without the matching ID record)
     fs.writeFileSync('./Develop/db/db.json', JSON.stringify(prevNote));
     res.json(prevNote);
 });
